@@ -1,14 +1,15 @@
 import React from 'react'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 import routes from './Routes/Routes'
 import Header from './Components/Header/Header'
 import './App.css'
+import { GlobalProvider } from './Context/Provider'
 
 function App() {
   return (
     <div className="App">
-      <Header />
-      <Router>
+      <GlobalProvider>
+        <Header />
         <Switch>
           {routes.map((el, index) => (
             <Route
@@ -18,7 +19,7 @@ function App() {
               exact />
           ))}
         </Switch>
-      </Router>
+      </GlobalProvider>
     </div>
   )
 }

@@ -1,7 +1,7 @@
 import React,{useEffect} from 'react'
-import { Link } from 'react-router-dom'
 
 import Actions from '../../Context/Actions/Actions'
+import RegisterFrom from '../../Layout/Register/Register'
 
 const Register = () => {
 
@@ -13,7 +13,7 @@ const Register = () => {
   return (
     <div>
       <h1>Register</h1>
-      <Link to='/auth/login'>Login</Link>
+      <RegisterFrom />
     </div>
   )
 }
