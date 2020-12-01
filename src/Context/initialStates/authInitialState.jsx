@@ -1,6 +1,9 @@
-export default {
+ const auth = {
   auth: {
     loading: false,
-    user: null
+    error: null,
+    data: null
   }
 }
+
+export default auth

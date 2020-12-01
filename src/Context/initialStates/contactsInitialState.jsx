@@ -1,4 +1,4 @@
-export default {
+ const contact = {
   contacts: {
     loading: false,
     error: null
@@ -8,3 +8,5 @@ export default {
     error: null
   }
 }
+
+export default contact

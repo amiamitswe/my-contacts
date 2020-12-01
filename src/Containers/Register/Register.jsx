@@ -1,19 +1,19 @@
-import React,{useEffect} from 'react'
+import React, { useEffect } from 'react'
 
-import Actions from '../../Context/Actions/Actions'
 import RegisterFrom from '../../Layout/Register/Register'
+import useFrom from './useForm'
 
 const Register = () => {
 
 
   useEffect(() => {
-    Actions()
-  },[])
+
+  }, [])
 
   return (
     <div>
       <h1>Register</h1>
-      <RegisterFrom />
+      <RegisterFrom formHandle={useFrom()} />
     </div>
   )
 }
