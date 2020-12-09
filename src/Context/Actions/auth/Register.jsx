@@ -1,5 +1,5 @@
-import { REGISTER_ERROR, REGISTER_LOADING, REGISTER_SUCCESS } from '../../../Constants/ActionTypes/Register'
-import axios from '../../../Helper/axios'
+import { REGISTER_ERROR, REGISTER_LOADING, REGISTER_SUCCESS } from '../../../Constants/ActionTypes/Action'
+import axiosInstance from '../../../Helper/axiosInstance'
 
 const register = ({
   email,
@@ -13,7 +13,7 @@ const register = ({
     type: REGISTER_LOADING
   })
 
-  axios.post('/auth/register',
+  axiosInstance().post('/auth/register',
     {
       email,
       password,
@@ -30,7 +30,7 @@ const register = ({
     .catch(er => 
       dispatch({
         type: REGISTER_ERROR,
-        payload: er.response.data
+        payload: er.response ? er.response.data.detail : 'Could not connect'
       }))
 }
 

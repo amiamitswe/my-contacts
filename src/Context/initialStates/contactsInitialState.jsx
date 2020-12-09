@@ -1,11 +1,13 @@
  const contact = {
   contacts: {
     loading: false,
-    error: null
+    error: null,
+    data:[]
   },
-  addContacts: {
+  addContact: {
     loading: false,
-    error: null
+    error: null,
+    data: null,
   }
 }
 
