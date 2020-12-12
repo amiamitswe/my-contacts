@@ -34,11 +34,13 @@ function App() {
           return userLeaveConfirmation(message, callback, open, setOpen)
         }}>
           <Header />
+          <div style={{padding: '0 10px'}}>
           <Switch>
             {routes.map((el, index) => (
               <RenderRoute key={index} {...el} />
             ))}
           </Switch>
+          </div>
         </Router>
       </GlobalProvider>
     </div>

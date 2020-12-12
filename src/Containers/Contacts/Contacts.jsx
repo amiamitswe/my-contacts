@@ -10,8 +10,12 @@ const Contacts = () => {
 
   const history = useHistory()
 
+  const {contacts:{data}} = contactState
+
   React.useEffect(() => {
-    getContacts(history)(contactDispatch)
+    if(data.length === 0) {
+      getContacts(history)(contactDispatch)
+    }
   }, [])
 
   console.log(contactState)

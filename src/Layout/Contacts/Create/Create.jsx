@@ -1,7 +1,7 @@
 import React from 'react'
 import { Prompt } from 'react-router-dom'
 import { Button, Card, Form, Grid, Header, Icon, Image, Segment, Select } from 'semantic-ui-react'
-import countries from '../../../../Utils/countries'
+import countries from '../../../Utils/countries'
 
 const Create = ({ onChange, onSubmit, formInvalid, formIsHalfFiled, onImageChange, loading, imageFile }) => {
 

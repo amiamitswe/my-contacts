@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react'
 import clearCreateContact from '../../Context/Actions/Contacts/clearCreateContact'
 import CreateContact from '../../Context/Actions/Contacts/CreateContact'
-import Create from '../../Layout/Contacts/List/Create/Create'
+import Create from '../../Layout/Contacts/Create/Create'
 import { GlobalContext } from '../../Context/Provider'
 import { useHistory } from 'react-router-dom'
 

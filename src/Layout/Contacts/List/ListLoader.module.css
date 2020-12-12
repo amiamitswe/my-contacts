@@ -1,0 +1,57 @@
+.ContactNameD {
+  margin: 0 10px;
+}
+
+.ContactNameM {
+  display: none;
+}
+
+.Contact_List {
+  display: flex !important;
+  align-items: center;
+}
+
+.Contact_List_Item {
+  display: flex;
+  align-items: center;
+}
+
+.Contact_Number {
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.ContactNumberM {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .ContactNameD {
+    display: none;
+  }
+
+  .ContactNameM {
+    display: block;
+    font-size: 22px;
+    margin: 0 0 0 10px;
+  }
+
+  .ContactNumberD {
+    display: none;
+  }
+
+  .ContactNumberM {
+    display: block;
+  }
+}
+
+@media (max-width: 360px) {
+  .Contact_List_Item {
+    text-align: left;
+  }
+
+  .ContactNameM {
+    font-size: 16px;
+  }
+}

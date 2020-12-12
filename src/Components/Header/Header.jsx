@@ -1,4 +1,3 @@
-
 import React from 'react'
 import { Menu, Image } from 'semantic-ui-react'
 import { Button, Icon } from 'semantic-ui-react'
@@ -7,12 +6,11 @@ import { Link, useHistory, useLocation } from 'react-router-dom'
 import Logout from '../../Context/Actions/auth/Logout'
 import { GlobalContext } from '../../Context/Provider'
 
+import classes from './Header.module.css'
+
 const Header = () => {
 
   const { pathname } = useLocation()
-
-  // console.log('location', pathname)
-
   const token = localStorage.token
   const history = useHistory()
   const { contactDispatch: dispatch } = React.useContext(GlobalContext)
@@ -22,74 +20,87 @@ const Header = () => {
     Logout(history)(dispatch)
   }
 
+  const WindowWidth = window.screen.width
+
+  const controlFade = () => WindowWidth > 767 && 'fade'
+
+  const btnText = (name) => WindowWidth > 767 && name
+
+  const Logo = (
+    <Menu.Item as={Link} to='/'>
+      <Image src={img} width={60}
+        className={classes.Logo} />
+    </Menu.Item>
+  )
+
+  const Title = (
+    <Menu.Item as={Link} to='/' className={classes.Title}>
+      My Contacts
+    </Menu.Item>
+  )
+
+  const createContactBTN = (
+    <Menu.Item>
+      <Button as={Link} to='/contacts/create'
+        animated={controlFade()}
+        basic color='green' >
+        <Button.Content visible>{btnText("New Contact")}</Button.Content>
+        <Button.Content hidden>
+          <Icon name='add' />
+        </Button.Content>
+      </Button>
+    </Menu.Item>
+  )
+
+  const registerBTN = (
+    <Menu.Item>
+      <Button as={Link} to='/auth/register' animated={controlFade()} basic color='orange'>
+        <Button.Content visible>{btnText('Register')}</Button.Content>
+        <Button.Content hidden>
+          <Icon name='add user' />
+        </Button.Content>
+      </Button>
+    </Menu.Item>
+  )
+
+  const loginBTN = (
+    <Menu.Item>
+      <Button as={Link} to='/auth/login' animated={controlFade()} basic color='green'>
+        <Button.Content visible>{btnText('Login')}</Button.Content>
+        <Button.Content hidden>
+          <Icon name='sign in' />
+        </Button.Content>
+      </Button>
+    </Menu.Item>
+  )
+
+  const logoutBTN = (
+    < Menu.Item >
+      <Button animated={controlFade()} onClick={userLogoutHandler} basic color='red'>
+        <Button.Content visible>{btnText('Logout')}</Button.Content>
+        <Button.Content hidden>
+          <Icon name='log out' />
+        </Button.Content>
+      </Button>
+    </Menu.Item >
+  )
+
+
   return (
     <React.Fragment>
       <Menu pointing secondary>
-        <Menu.Item as={Link} to='/'>
-          <Image src={img} width={60}
-            style={{ alignSelf: 'center', width: '40px' }} />
-        </Menu.Item>
-        <Menu.Item style={{ fontSize: '24px', paddingLeft: '0' }}>
-          My Contacts
-        </Menu.Item>
-
+        {Logo}
+        {Title}
         <Menu.Menu position='right' style={{ alignSelf: 'center' }}>
-          {(pathname !== '/auth/register' && pathname !== '/auth/login') && <React.Fragment>
-
-            {token && <Menu.Item>
-              <Button as={Link} to='/contacts/create'
-                animated='fade' basic color='green'>
-                <Button.Content visible>New Contact</Button.Content>
-                <Button.Content hidden>
-                  <Icon name='add' />
-                </Button.Content>
-              </Button>
-            </Menu.Item>}
-
-            {token ?
-              < Menu.Item >
-                <Button animated='fade' onClick={userLogoutHandler} basic color='red'>
-                  <Button.Content visible>Logout</Button.Content>
-                  <Button.Content hidden>
-                    <Icon name='log out' />
-                  </Button.Content>
-                </Button>
-              </Menu.Item >
-              :
-              <Menu.Item>
-                <Button as={Link} to='/auth/login' animated='fade' basic color='green'>
-                  <Button.Content visible>Login</Button.Content>
-                  <Button.Content hidden>
-                    <Icon name='sign in' />
-                  </Button.Content>
-                </Button>
-              </Menu.Item>
-
-            }
-
-          </React.Fragment>}
-
-          {pathname === '/auth/register' &&
-            <Menu.Item>
-              <Button as={Link} to='/auth/login' animated='fade' basic color='green'>
-                <Button.Content visible>Login</Button.Content>
-                <Button.Content hidden>
-                  <Icon name='sign in' />
-                </Button.Content>
-              </Button>
-            </Menu.Item>
+          {(pathname !== '/auth/register' && pathname !== '/auth/login') &&
+            <React.Fragment>
+              {token && createContactBTN}
+              {token ? logoutBTN : loginBTN}
+            </React.Fragment>
           }
 
-          {pathname === '/auth/login' &&
-            <Menu.Item>
-              <Button as={Link} to='/auth/register' animated='fade' basic color='orange'>
-                <Button.Content visible>Register</Button.Content>
-                <Button.Content hidden>
-                  <Icon name='add user' />
-                </Button.Content>
-              </Button>
-            </Menu.Item>
-          }
+          {pathname === '/auth/register' && loginBTN}
+          {pathname === '/auth/login' && registerBTN}
         </Menu.Menu>
       </Menu>
     </React.Fragment>
