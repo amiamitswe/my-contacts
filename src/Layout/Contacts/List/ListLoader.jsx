@@ -1,13 +1,24 @@
 import React from 'react'
-import { Container, Header, List, Message, Placeholder } from 'semantic-ui-react'
+import { Container, Header, Icon, List, Message, Placeholder, Popup } from 'semantic-ui-react'
 import ImageThumb from '../../../Components/ImageThumb/ImageThumb'
+// import handleFavoriteContact from '../../../Context/Actions/Contacts/handleFavoriteContact'
 import limitTitle from '../../../Helper/shortText'
 import Favorite from '../Favorite/Favorite'
 import classes from './ListLoader.module.css'
 
-const ListLoader = ({ state: { contacts: { loading, error, data } } }) => {
+const ListLoader = ({
+  state: {
+    contacts: {
+      loading,
+      error,
+      data,
+      foundContacts,
+      isSearchActive } },
+  deleteContact,
+  handleFavoriteContact }) => {
 
-  const favoriteContacts = data.filter(item => item.is_favorite)
+  const currentContacts = isSearchActive ? foundContacts : data
+  const favoriteContacts = currentContacts.filter(item => item.is_favorite)
 
   console.log(favoriteContacts)
 
@@ -32,16 +43,16 @@ const ListLoader = ({ state: { contacts: { loading, error, data } } }) => {
     />
   }
 
-  else if (data.length === 0) {
+  else if (currentContacts.length === 0) {
     contactData = <Message
       content='No Contacts yet..... 😥'
     />
   }
 
-  else if (data.length > 0) {
+  else if (currentContacts.length > 0) {
     contactData = <List divided relaxed>
-      {data.map((el, index) => (
-        <List.Item key={index} className={classes.Contact_List}>
+      {currentContacts.map((el, index) => (
+        <List.Item key={index} disabled={el.deleting} className={classes.Contact_List}>
           <List.Content
             floated='left'
             className={classes.Contact_List_Item}
@@ -50,13 +61,24 @@ const ListLoader = ({ state: { contacts: { loading, error, data } } }) => {
               firstName={el.first_name}
               lastName={el.last_name}
               src={el.contact_picture}
+              isFavorite={el.is_favorite}
+              handleFavorite={() => handleFavoriteContact(el.id, el.is_favorite)}
             />
             <h2 className={classes.ContactNameD}>{el.first_name} {el.last_name}</h2>
             <h2 className={classes.ContactNameM}>{limitTitle(el.first_name, el.last_name, 12)}</h2>
           </List.Content>
           <List.Content floated='right' className={classes.Contact_Number}>
-            <span className={classes.ContactNumberD} >{el.phone_number}</span>
-            <span className={classes.ContactNumberM} >{limitTitle(el.phone_number, '', 13)}</span>
+            <span
+              className={classes.ContactNumberD} >
+              {el.country_code}&mdash;{el.phone_number}</span>
+            <span
+              className={classes.ContactNumberM} >
+              {el.country_code}&mdash;{limitTitle(el.phone_number, '', 13)}</span>
+            <Icon
+              name='trash'
+              disabled={el.deleting}
+              className={classes.DeleteContact}
+              onClick={() => deleteContact(el.id)} />
           </List.Content>
 
         </List.Item>
@@ -74,7 +96,11 @@ const ListLoader = ({ state: { contacts: { loading, error, data } } }) => {
             favorites={favoriteContacts}
             loading={loading} />
         </React.Fragment>}
-        <Header>All Contacts</Header>
+        <Popup
+          content='Click Image for manage favorite'
+          trigger={
+            <Header>All Contacts</Header>}
+        />
       </div>
       {contactData}
 

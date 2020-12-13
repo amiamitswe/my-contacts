@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import userLeaveConfirmation from './Components/ConfrimModal/userLeaveConfirmation'
 import { Switch, Route, useHistory, BrowserRouter as Router } from 'react-router-dom'
 import routes from './Routes/Routes'
@@ -35,11 +35,13 @@ function App() {
         }}>
           <Header />
           <div style={{padding: '0 10px'}}>
+          <Suspense fallback={<p>Loading</p>}>
           <Switch>
             {routes.map((el, index) => (
               <RenderRoute key={index} {...el} />
             ))}
           </Switch>
+          </Suspense>
           </div>
         </Router>
       </GlobalProvider>

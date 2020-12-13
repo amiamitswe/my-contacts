@@ -1,8 +1,10 @@
- const contact = {
+const contact = {
   contacts: {
     loading: false,
     error: null,
-    data:[]
+    data: [],
+    isSearchActive: false,
+    foundContacts: []
   },
   addContact: {
     loading: false,

@@ -1,9 +1,9 @@
-
+import { lazy } from 'react'
 import RegisterComponent from '../Containers/Register/Register'
 import LoginComponent from '../Containers/Login/Login'
 import ContactsComponent from '../Containers/Contacts/Contacts'
-import CreateContactComponent from '../Containers/CreateContact/CreateContact'
 
+const CreateContactComponent = lazy(() => import('../Containers/CreateContact/CreateContact'))
 
 const routes = [
   {

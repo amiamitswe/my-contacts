@@ -1,4 +1,4 @@
-import { ADD_CONTACT_ERROR, ADD_CONTACT_LOAD, ADD_CONTACT_SUCCESS, CLEAR_ADD_CONTACT, CONTACTS_ERROR, CONTACTS_LOADING, CONTACTS_LOAD_SUCCESS, LOGOUT_USER } from "../../Constants/ActionTypes/Action"
+import { ADD_CONTACT_ERROR, ADD_CONTACT_LOAD, ADD_CONTACT_SUCCESS, ADD_REMOVE_FAVORITE_LOADING, ADD_REMOVE_FAVORITE_SUCCESS, CLEAR_ADD_CONTACT, CONTACTS_ERROR, CONTACTS_LOADING, CONTACTS_LOAD_SUCCESS, DELETE_CONTACT_LOADING, DELETE_CONTACT_SUCCESS, LOGOUT_USER, SEARCH_CONTACTS } from "../../Constants/ActionTypes/Action"
 import contact from '../initialStates/contactsInitialState'
 const contacts = (state, { payload, type }) => {
   switch (type) {
@@ -88,6 +88,74 @@ const contacts = (state, { payload, type }) => {
           data: null,
           error: null,
           loading: false
+        }
+      }
+    }
+
+    case DELETE_CONTACT_LOADING: {
+      return {
+        ...state,
+        contacts: {
+          ...state.contacts,
+          loading: false,
+          data: state.contacts.data.map(item => {
+            if (item.id === payload) {
+              return { ...item, deleting: true }
+            }
+            return item
+          })
+        }
+      }
+    }
+
+    case DELETE_CONTACT_SUCCESS: {
+      return {
+        ...state,
+        contacts: {
+          ...state.contacts,
+          loading: false,
+          data: state.contacts.data.filter(item => item.id !== payload)
+        }
+      }
+    }
+
+    case ADD_REMOVE_FAVORITE_SUCCESS: {
+      return {
+        ...state,
+        contacts: {
+          ...state.contacts,
+
+          data: state.contacts.data.map(item => {
+            if(item.id === payload.id) {
+              return payload
+            }
+
+            return item
+          })
+        }
+      }
+    }
+
+    case SEARCH_CONTACTS: {
+
+      const searchValue = payload?.toLowerCase()
+      return {
+        contacts: {
+          ...state.contacts,
+          loading: false,
+          isSearchActive: payload.length > 0 ? true : false,
+          foundContacts: state.contacts.data.filter(item => {
+            try {
+              return (
+                item.first_name.toLowerCase().search(searchValue) !== -1 ||
+                item.last_name.toLowerCase().search(searchValue) !== -1 ||
+                item.phone_number.toLowerCase().search(searchValue) !== -1
+              )
+            }
+            catch (error) {
+              return []
+            }
+          })
         }
       }
     }

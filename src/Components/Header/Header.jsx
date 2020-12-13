@@ -1,5 +1,5 @@
 import React from 'react'
-import { Menu, Image } from 'semantic-ui-react'
+import { Menu, Image, Input } from 'semantic-ui-react'
 import { Button, Icon } from 'semantic-ui-react'
 import img from '../../Assets/Img/contacts.png'
 import { Link, useHistory, useLocation } from 'react-router-dom'
@@ -7,6 +7,7 @@ import Logout from '../../Context/Actions/auth/Logout'
 import { GlobalContext } from '../../Context/Provider'
 
 import classes from './Header.module.css'
+import searchContacts from '../../Context/Actions/Contacts/searchContacts'
 
 const Header = () => {
 
@@ -15,17 +16,23 @@ const Header = () => {
   const history = useHistory()
   const { contactDispatch: dispatch } = React.useContext(GlobalContext)
 
-
+  // logout function
   const userLogoutHandler = () => {
     Logout(history)(dispatch)
   }
 
+  // window screen width functions
   const WindowWidth = window.screen.width
-
   const controlFade = () => WindowWidth > 767 && 'fade'
-
   const btnText = (name) => WindowWidth > 767 && name
 
+  // search for contacts here
+  const onChange = (e, { value }) => {
+    const searchText = value.trim().replace(/\s/g, '')
+    searchContacts(searchText)(dispatch)
+  }
+
+  // header items
   const Logo = (
     <Menu.Item as={Link} to='/'>
       <Image src={img} width={60}
@@ -85,6 +92,12 @@ const Header = () => {
     </Menu.Item >
   )
 
+  const searchInput = (
+    <Menu.Item>
+      <Input placeholder='Search for contacts' onChange={onChange} />
+    </Menu.Item>
+  )
+
 
   return (
     <React.Fragment>
@@ -94,6 +107,7 @@ const Header = () => {
         <Menu.Menu position='right' style={{ alignSelf: 'center' }}>
           {(pathname !== '/auth/register' && pathname !== '/auth/login') &&
             <React.Fragment>
+              {searchInput}
               {token && createContactBTN}
               {token ? logoutBTN : loginBTN}
             </React.Fragment>

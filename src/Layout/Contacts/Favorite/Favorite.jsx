@@ -12,7 +12,7 @@ const Favorite = ({ favorites, loading }) => {
   const showLeftRight = favorites.length > 3
 
 
-  const scrollLeft = () => {
+  const scrollRight = () => {
     if (listRef.current) {
       listRef.current.scrollBy({
         top: 0,
@@ -22,7 +22,7 @@ const Favorite = ({ favorites, loading }) => {
     }
   }
 
-  const scrollRight = () => {
+  const scrollLeft = () => {
     if (listRef.current) {
       listRef.current.scrollBy({
         top: 0,
